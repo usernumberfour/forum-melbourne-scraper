@@ -66,6 +66,9 @@ async function main() {
   const current = await scrapeArtists();
   const previous = loadPrevious();
 
+  // TEMP: force a test email
+  await sendEmail([{ artist: "TEST ARTIST", link: "https://example.com" }]);
+
   const prevNames = new Set(previous.map(a => a.artist));
   const newArtists = current.filter(a => !prevNames.has(a.artist));
 
@@ -75,6 +78,10 @@ async function main() {
   } else {
     console.log("No new artists this month.");
   }
+
+  saveCurrent(current);
+}
+
 
   saveCurrent(current);
 }
