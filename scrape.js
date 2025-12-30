@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 const URL = "https://forummelbourne.com.au/whats-on/";
 const DATA_FILE = "artists.json";
 
+// Scrape artists from the website
 async function scrapeArtists() {
   const { data } = await axios.get(URL);
   const $ = cheerio.load(data);
@@ -21,18 +22,23 @@ async function scrapeArtists() {
   return artists;
 }
 
+// Load previous artists from file
 function loadPrevious() {
   if (!fs.existsSync(DATA_FILE)) return [];
   return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
 }
 
+// Save current artists to file
 function saveCurrent(data) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
+// Send email using Yandex SMTP
 async function sendEmail(newArtists) {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.yandex.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
@@ -51,6 +57,7 @@ async function sendEmail(newArtists) {
   });
 }
 
+// Main logic
 async function main() {
   const current = await scrapeArtists();
   const previous = loadPrevious();
