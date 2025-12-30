@@ -82,8 +82,4 @@ async function main() {
   saveCurrent(current);
 }
 
-
-  saveCurrent(current);
-}
-
 main();
