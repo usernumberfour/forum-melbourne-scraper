@@ -1,4 +1,4 @@
-import axios from "axios";
+import fetch from "node-fetch";
 import * as cheerio from "cheerio";
 import fs from "fs";
 import nodemailer from "nodemailer";
@@ -8,7 +8,8 @@ const DATA_FILE = "artists.json";
 
 // Scrape artists from the website
 async function scrapeArtists() {
-  const { data } = await axios.get(URL);
+  const response = await fetch(URL);
+  const data = await response.text();
   const $ = cheerio.load(data);
 
   const artists = [];
