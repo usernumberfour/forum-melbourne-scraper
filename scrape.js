@@ -46,6 +46,26 @@ async function sendEmail(newArtists) {
     }
   });
 
+  console.log("Connecting to Yandex SMTP as:", process.env.EMAIL_USER);
+
+  const htmlList = newArtists
+    .map(a => `<li><a href="${a.link}">${a.artist}</a></li>`)
+    .join("");
+
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: "emailmeat@yandex.com",
+      subject: "New Artists at Forum Melbourne",
+      html: `<h2>New Artists Found</h2><ul>${htmlList}</ul>`
+    });
+
+    console.log("Email sent successfully:", info);
+  } catch (err) {
+    console.error("Email failed:", err);
+  }
+}  });
+
   const htmlList = newArtists
     .map(a => `<li><a href="${a.link}">${a.artist}</a></li>`)
     .join("");
