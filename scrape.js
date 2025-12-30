@@ -11,6 +11,8 @@ async function scrapeArtists() {
   const data = await response.text();
   const $ = cheerio.load(data);
 
+  console.log("Number of .event-card elements:", $(".event-card").length);
+
   const artists = [];
 
   $(".event-card").each((_, el) => {
