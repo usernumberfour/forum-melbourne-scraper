@@ -63,9 +63,8 @@ async function sendEmail(newArtists) {
     console.log("Email sent successfully:", info);
   } catch (err) {
     console.error("Email failed:", err);
-  }
-}  });
-
+ });
+}
   const htmlList = newArtists
     .map(a => `<li><a href="${a.link}">${a.artist}</a></li>`)
     .join("");
